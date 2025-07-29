@@ -96,6 +96,83 @@
     .about-box h2 {
       color: #d4af37;
     }
+    
+    /* Dialog styles */
+    .dialog-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
+    
+    .dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #1b263b;
+      color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      border: 2px solid #d4af37;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .dialog h3 {
+      color: #d4af37;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    
+    .dialog p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    
+    .phone-link {
+      color: #d4af37;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    .phone-link:hover {
+      color: #fff;
+    }
+    
+    .line-link {
+      color: #d4af37;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    .line-link:hover {
+      color: #fff;
+    }
+    
+    .dialog-close {
+      background-color: #d4af37;
+      color: #0d1b2a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .dialog-close:hover {
+      background-color: #b8941f;
+    }
   </style>
 </head>
 <body>
@@ -107,7 +184,7 @@
       <h2>會員登入</h2>
       <input type="email" placeholder="電子郵件">
       <input type="password" placeholder="密碼">
-      <button>登入</button>
+      <button onclick="showDialog()">登入</button>
     </div>
     <div class="investment-box">
       <h2>投資與借貸</h2>
@@ -143,16 +220,71 @@
       </div>
     </div>
     <div class="pagination">
-      <button>上一頁</button>
-      <button>下一頁</button>
+      <button onclick="showDialog()">上一頁</button>
+      <button onclick="showDialog()">下一頁</button>
     </div>
   </div>
   <div class="about-box">
     <h2>關於我們</h2>
     <p>皇勝創新有限公司<br>
       統一編號：93561890<br>
-      我們致力於提供安全、透明的P2P不動產投資平台，協助投資人獲得穩定收益。
+      我們致力於提供安全、透明的P2P不動產投資平台，協助投資人獲得穩定收益。<br><br>
+      <strong>聯絡方式：</strong><br>
+      電話：<span class="phone-link" onclick="makeCall('0912382387')">0912-382-387</span><br>
+      LINE ID：<span class="line-link" onclick="addLine('HARRYLIN123')">HARRYLIN123</span>
     </p>
   </div>
+
+  <!-- Dialog -->
+  <div id="dialogOverlay" class="dialog-overlay" onclick="closeDialog()">
+    <div class="dialog" onclick="event.stopPropagation()">
+      <h3>重要公告</h3>
+      <p>目前只提供親友投資<br>
+         請撥 <span class="phone-link" onclick="makeCall('0912382387')">0912-382-387</span><br><br>
+         借款也是撥 <span class="phone-link" onclick="makeCall('0912382387')">0912-382-387</span><br>
+         或加LINE ID: <span class="line-link" onclick="addLine('HARRYLIN123')">HARRYLIN123</span>
+      </p>
+      <button class="dialog-close" onclick="closeDialog()">關閉</button>
+    </div>
+  </div>
+
+  <script>
+    function showDialog() {
+      document.getElementById('dialogOverlay').style.display = 'block';
+    }
+    
+    function closeDialog() {
+      document.getElementById('dialogOverlay').style.display = 'none';
+    }
+    
+    function makeCall(phoneNumber) {
+      window.location.href = 'tel:' + phoneNumber;
+    }
+    
+    function addLine(lineId) {
+      // Try to open LINE app first
+      const lineAppUrl = 'line://ti/p/~' + lineId;
+      const lineWebUrl = 'https://line.me/ti/p/~' + lineId;
+      
+      // For mobile devices, try to open LINE app
+      if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        window.location.href = lineAppUrl;
+        // Fallback to web version after a delay if app doesn't open
+        setTimeout(function() {
+          window.open(lineWebUrl, '_blank');
+        }, 1000);
+      } else {
+        // For desktop, open LINE web version
+        window.open(lineWebUrl, '_blank');
+      }
+    }
+    
+    // Close dialog when pressing ESC key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeDialog();
+      }
+    });
+  </script>
 </body>
 </html>
