@@ -1,308 +1,391 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>皇勝創新不動產P2P投資平台</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Microsoft JhengHei', sans-serif;
-      background-color: #0d1b2a;
-      color: #fff;
-    }
-    header {
-      background-color: #0d1b2a;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #d4af37;
-    }
-    header h1 {
-      margin: 0;
-      color: #d4af37;
-    }
-    .container {
-      display: flex;
-      justify-content: space-between;
-      padding: 40px;
-    }
-    .login-box, .investment-box {
-      background-color: #1b263b;
-      padding: 20px;
-      border-radius: 10px;
-      width: 45%;
-    }
-    .login-box h2, .investment-box h2 {
-      color: #d4af37;
-      margin-bottom: 15px;
-    }
-    .login-box input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
-    }
-    .login-box button {
-      width: 100%;
-      padding: 10px;
-      background-color: #d4af37;
-      color: #0d1b2a;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .cases {
-      background-color: #eae0c8;
-      color: #0d1b2a;
-      padding: 40px;
-      text-align: center;
-    }
-    .case-list {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-    .case {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      width: 45%;
-      margin: 10px 0;
-      position: relative;
-    }
-    .case h3 {
-      color: #0d1b2a;
-    }
-    .settled-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #28a745;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 15px;
-      font-size: 12px;
-      font-weight: bold;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-    .pagination {
-      margin-top: 20px;
-    }
-    .pagination button {
-      padding: 10px 15px;
-      margin: 0 5px;
-      background-color: #d4af37;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .about-box {
-      background-color: #1b263b;
-      padding: 20px;
-      border-radius: 10px;
-      margin: 20px;
-      text-align: center;
-    }
-    .about-box h2 {
-      color: #d4af37;
-    }
-    
-    /* Dialog styles */
-    .dialog-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 1000;
-    }
-    
-    .dialog {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #1b263b;
-      color: #fff;
-      padding: 30px;
-      border-radius: 15px;
-      border: 2px solid #d4af37;
-      max-width: 500px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-    
-    .dialog h3 {
-      color: #d4af37;
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-    
-    .dialog p {
-      line-height: 1.6;
-      margin-bottom: 20px;
-      font-size: 16px;
-    }
-    
-    .phone-link {
-      color: #d4af37;
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    
-    .phone-link:hover {
-      color: #fff;
-    }
-    
-    .line-link {
-      color: #d4af37;
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    
-    .line-link:hover {
-      color: #fff;
-    }
-    
-    .dialog-close {
-      background-color: #d4af37;
-      color: #0d1b2a;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    
-    .dialog-close:hover {
-      background-color: #b8941f;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>皇勝創新不動產P2P投資平台</h1>
-  </header>
-  <div class="container">
-    <div class="login-box">
-      <h2>會員登入</h2>
-      <input type="email" placeholder="電子郵件">
-      <input type="password" placeholder="密碼">
-      <button onclick="showDialog()">登入</button>
-    </div>
-    <div class="investment-box">
-      <h2>投資與借貸</h2>
-      <p>登入會員後即可查看詳細投資與借貸資訊，並進行投資操作。</p>
-    </div>
-  </div>
-  <div class="cases">
-    <h2>投資案例</h2>
-    <div class="case-list">
-      <div class="case">
-        <div class="settled-badge">已結清</div>
-        <h3>1. 新北市中和區中正路***</h3>
-        <p>(要登入會員才可看詳情)<br>年化報酬 6.0%<br>投資期 3個月</p>
-      </div>
-      <div class="case">
-        <h3>2. 花蓮縣吉安市南海一街***</h3>
-        <p>月付 100元<br>年化報酬 6.0%<br>投資期 3個月</p>
-      </div>
-      <div class="case">
-        <div class="settled-badge">已結清</div>
-        <h3>3. 台北市信義區光復南路***</h3>
-        <p>(要登入會員才可看詳情)<br>年化報酬 6.0%<br>投資期 3個月</p>
-      </div>
-      <div class="case">
-        <div class="settled-badge">已結清</div>
-        <h3>4. 高雄市前鎮區中山二路***</h3>
-        <p>月付 200元<br>年化報酬 6.0%<br>投資期 3個月</p>
-      </div>
-      <div class="case">
-        <div class="settled-badge">已結清</div>
-        <h3>5. 新竹市東區關新路***</h3>
-        <p>(要登入會員才可看詳情)<br>年化報酬 6.0%<br>投資期 3個月</p>
-      </div>
-      <div class="case">
-        <div class="settled-badge">已結清</div>
-        <h3>6. 台中市西屯區文心路***</h3>
-        <p>月付 150元<br>年化報酬 6.0%<br>投資期 3個月</p>
-      </div>
-    </div>
-    <div class="pagination">
-      <button onclick="showDialog()">上一頁</button>
-      <button onclick="showDialog()">下一頁</button>
-    </div>
-  </div>
-  <div class="about-box">
-    <h2>關於我們</h2>
-    <p>皇勝創新有限公司<br>
-      統一編號：93561890<br>
-      我們致力於提供安全、透明的P2P不動產投資平台，協助投資人獲得穩定收益。<br><br>
-      <strong>聯絡方式：</strong><br>
-      電話：<span class="phone-link" onclick="makeCall('0912382387')">0912-382-387</span><br>
-      LINE ID：<span class="line-link" onclick="addLine('harrylin123')">harrylin123</span>
-    </p>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>皇勝創新不動產P2P投資平台</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft JhengHei", sans-serif;
+        background-color: #0d1b2a;
+        color: #fff;
+      }
+      header {
+        background-color: #0d1b2a;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 2px solid #d4af37;
+      }
+      header h1 {
+        margin: 0;
+        color: #d4af37;
+      }
+      .header-achievement {
+        background: linear-gradient(135deg, #d4af37, #f4e49c);
+        color: #0d1b2a;
+        padding: 8px 16px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-top: 10px;
+        display: inline-block;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+      .header-achievement:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+      }
+      .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 40px;
+      }
+      .login-box,
+      .investment-box {
+        background-color: #1b263b;
+        padding: 20px;
+        border-radius: 10px;
+        width: 45%;
+      }
+      .login-box h2,
+      .investment-box h2 {
+        color: #d4af37;
+        margin-bottom: 15px;
+      }
+      .login-box input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+      }
+      .login-box button {
+        width: 100%;
+        padding: 10px;
+        background-color: #d4af37;
+        color: #0d1b2a;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .cases {
+        background-color: #eae0c8;
+        color: #0d1b2a;
+        padding: 40px;
+        text-align: center;
+      }
+      .case-list {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .case {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        width: 45%;
+        margin: 10px 0;
+        position: relative;
+      }
+      .case h3 {
+        color: #0d1b2a;
+      }
+      .settled-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #28a745;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .pagination {
+        margin-top: 20px;
+      }
+      .pagination button {
+        padding: 10px 15px;
+        margin: 0 5px;
+        background-color: #d4af37;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .about-box {
+        background-color: #1b263b;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px;
+        text-align: center;
+      }
+      .about-box h2 {
+        color: #d4af37;
+      }
 
-  <!-- Dialog -->
-  <div id="dialogOverlay" class="dialog-overlay" onclick="closeDialog()">
-    <div class="dialog" onclick="event.stopPropagation()">
-      <h3>重要公告</h3>
-      <p>目前只提供親友投資<br>
-         請撥 <span class="phone-link" onclick="makeCall('0912382387')">0912-382-387</span><br><br>
-         借款也是撥 <span class="phone-link" onclick="makeCall('0912382387')">0912-382-387</span><br>
-         或加LINE ID: <span class="line-link" onclick="addLine('harrylin123')">harrylin123</span>
+      .achievement-badge {
+        background: linear-gradient(135deg, #d4af37, #f4e49c);
+        color: #0d1b2a;
+        padding: 10px 20px;
+        border-radius: 20px;
+        display: inline-block;
+        margin: 10px 0;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+        border: 2px solid #d4af37;
+      }
+
+      .achievement-badge:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(212, 175, 55, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      /* Dialog styles */
+      .dialog-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+      }
+
+      .dialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #1b263b;
+        color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        border: 2px solid #d4af37;
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .dialog h3 {
+        color: #d4af37;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .dialog p {
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+
+      .phone-link {
+        color: #d4af37;
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .phone-link:hover {
+        color: #fff;
+      }
+
+      .line-link {
+        color: #d4af37;
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .line-link:hover {
+        color: #fff;
+      }
+
+      .dialog-close {
+        background-color: #d4af37;
+        color: #0d1b2a;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .dialog-close:hover {
+        background-color: #b8941f;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>皇勝創新不動產P2P投資平台</h1>
+      <a
+        href="https://event.ithome.com.tw/live/agenticai2025/index.html?v=1761798931#final"
+        target="_blank"
+        class="header-achievement"
+      >
+        🏆 Microsoft Agentic AI Hackathon 入選
+      </a>
+    </header>
+    <div class="container">
+      <div class="login-box">
+        <h2>會員登入</h2>
+        <input type="email" placeholder="電子郵件" />
+        <input type="password" placeholder="密碼" />
+        <button onclick="showDialog()">登入</button>
+      </div>
+      <div class="investment-box">
+        <h2>投資與借貸</h2>
+        <p>登入會員後即可查看詳細投資與借貸資訊，並進行投資操作。</p>
+      </div>
+    </div>
+    <div class="cases">
+      <h2>投資案例</h2>
+      <div class="case-list">
+        <div class="case">
+          <div class="settled-badge">已結清</div>
+          <h3>1. 新北市中和區中正路***</h3>
+          <p>(要登入會員才可看詳情)<br />年化報酬 6.0%<br />投資期 3個月</p>
+        </div>
+        <div class="case">
+          <h3>2. 花蓮縣吉安市南海一街***</h3>
+          <p>月付 100元<br />年化報酬 6.0%<br />投資期 3個月</p>
+        </div>
+        <div class="case">
+          <div class="settled-badge">已結清</div>
+          <h3>3. 台北市信義區光復南路***</h3>
+          <p>(要登入會員才可看詳情)<br />年化報酬 6.0%<br />投資期 3個月</p>
+        </div>
+        <div class="case">
+          <div class="settled-badge">已結清</div>
+          <h3>4. 高雄市前鎮區中山二路***</h3>
+          <p>月付 200元<br />年化報酬 6.0%<br />投資期 3個月</p>
+        </div>
+        <div class="case">
+          <div class="settled-badge">已結清</div>
+          <h3>5. 新竹市東區關新路***</h3>
+          <p>(要登入會員才可看詳情)<br />年化報酬 6.0%<br />投資期 3個月</p>
+        </div>
+        <div class="case">
+          <div class="settled-badge">已結清</div>
+          <h3>6. 台中市西屯區文心路***</h3>
+          <p>月付 150元<br />年化報酬 6.0%<br />投資期 3個月</p>
+        </div>
+      </div>
+      <div class="pagination">
+        <button onclick="showDialog()">上一頁</button>
+        <button onclick="showDialog()">下一頁</button>
+      </div>
+    </div>
+    <div class="about-box">
+      <h2>關於我們</h2>
+
+      <a
+        href="https://event.ithome.com.tw/live/agenticai2025/index.html?v=1761798931#final"
+        target="_blank"
+      >
+        <div class="achievement-badge">
+          🏆 入選 Microsoft Agentic AI Hackathon｜企業智慧應用實戰賽
+        </div>
+      </a>
+      <p>
+        皇勝創新有限公司<br />
+        統一編號：93561890<br />
+        我們致力於提供安全、透明的P2P不動產投資平台，協助投資人獲得穩定收益。<br />
+        結合創新AI技術，為投資者帶來更智慧的投資體驗。<br /><br />
+
+        <strong>🎯 最新成就：</strong><br />
+        榮獲 Microsoft Agentic AI Hackathon 企業智慧應用實戰賽入選<br />
+        <a
+          href="https://event.ithome.com.tw/live/agenticai2025/index.html?v=1761798931#final"
+          target="_blank"
+          style="color: #d4af37; text-decoration: underline"
+        >
+          查看活動詳情 → </a
+        ><br /><br />
+
+        <strong>聯絡方式：</strong><br />
+        電話：<span class="phone-link" onclick="makeCall('0912382387')"
+          >0912-382-387</span
+        ><br />
+        LINE ID：<span class="line-link" onclick="addLine('harrylin123')"
+          >harrylin123</span
+        >
       </p>
-      <button class="dialog-close" onclick="closeDialog()">關閉</button>
     </div>
-  </div>
 
-  <script>
-    function showDialog() {
-      document.getElementById('dialogOverlay').style.display = 'block';
-    }
-    
-    function closeDialog() {
-      document.getElementById('dialogOverlay').style.display = 'none';
-    }
-    
-    function makeCall(phoneNumber) {
-      window.location.href = 'tel:' + phoneNumber;
-    }
-    
-    function addLine(lineId) {
-      // Try to open LINE app first
-      const lineAppUrl = 'line://ti/p/~' + lineId;
-      const lineWebUrl = 'https://line.me/ti/p/~' + lineId;
-      
-      // For mobile devices, try to open LINE app
-      if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        window.location.href = lineAppUrl;
-        // Fallback to web version after a delay if app doesn't open
-        setTimeout(function() {
-          window.open(lineWebUrl, '_blank');
-        }, 1000);
-      } else {
-        // For desktop, open LINE web version
-        window.open(lineWebUrl, '_blank');
+    <!-- Dialog -->
+    <div id="dialogOverlay" class="dialog-overlay" onclick="closeDialog()">
+      <div class="dialog" onclick="event.stopPropagation()">
+        <h3>重要公告</h3>
+        <p>
+          目前只提供親友投資<br />
+          請撥
+          <span class="phone-link" onclick="makeCall('0912382387')"
+            >0912-382-387</span
+          ><br /><br />
+          借款也是撥
+          <span class="phone-link" onclick="makeCall('0912382387')"
+            >0912-382-387</span
+          ><br />
+          或加LINE ID:
+          <span class="line-link" onclick="addLine('harrylin123')"
+            >harrylin123</span
+          >
+        </p>
+        <button class="dialog-close" onclick="closeDialog()">關閉</button>
+      </div>
+    </div>
+
+    <script>
+      function showDialog() {
+        document.getElementById("dialogOverlay").style.display = "block";
       }
-    }
-    
-    // Close dialog when pressing ESC key
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        closeDialog();
+
+      function closeDialog() {
+        document.getElementById("dialogOverlay").style.display = "none";
       }
-    });
-  </script>
-</body>
+
+      function makeCall(phoneNumber) {
+        window.location.href = "tel:" + phoneNumber;
+      }
+
+      function addLine(lineId) {
+        // Try to open LINE app first
+        const lineAppUrl = "line://ti/p/~" + lineId;
+        const lineWebUrl = "https://line.me/ti/p/~" + lineId;
+
+        // For mobile devices, try to open LINE app
+        if (
+          /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent,
+          )
+        ) {
+          window.location.href = lineAppUrl;
+          // Fallback to web version after a delay if app doesn't open
+          setTimeout(function () {
+            window.open(lineWebUrl, "_blank");
+          }, 1000);
+        } else {
+          // For desktop, open LINE web version
+          window.open(lineWebUrl, "_blank");
+        }
+      }
+
+      // Close dialog when pressing ESC key
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          closeDialog();
+        }
+      });
+    </script>
+  </body>
 </html>
